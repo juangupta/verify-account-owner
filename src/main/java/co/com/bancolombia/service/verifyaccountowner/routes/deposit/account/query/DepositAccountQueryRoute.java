@@ -1,4 +1,4 @@
-package co.com.bancolombia.service.verifyaccountowner.routes.deposit.account.query.route;
+package co.com.bancolombia.service.verifyaccountowner.routes.deposit.account.query;
 
 import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
 import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
