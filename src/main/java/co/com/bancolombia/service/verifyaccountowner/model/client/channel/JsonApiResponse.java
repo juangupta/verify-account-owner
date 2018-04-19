@@ -13,21 +13,22 @@ import javax.validation.constraints.*;
 
 /**
  * JsonApiResponse
+ * @param <T>
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T15:35:38.161Z")
 
-public class JsonApiResponse   {
+public class JsonApiResponse<T>   {
   @JsonProperty("data")
   @Valid
-  private List<ValidateChannelResponse> data = new ArrayList<ValidateChannelResponse>();
+  private List<T> data = new ArrayList<T>();
 
-  public JsonApiResponse data(List<ValidateChannelResponse> data) {
+  public JsonApiResponse data(List<T> data) {
     this.data = data;
     return this;
   }
 
-  public JsonApiResponse addDataItem(ValidateChannelResponse dataItem) {
+  public JsonApiResponse addDataItem(T dataItem) {
     this.data.add(dataItem);
     return this;
   }
@@ -41,11 +42,11 @@ public class JsonApiResponse   {
 
   @Valid
 
-  public List<ValidateChannelResponse> getData() {
+  public List<T> getData() {
     return data;
   }
 
-  public void setData(List<ValidateChannelResponse> data) {
+  public void setData(List<T> data) {
     this.data = data;
   }
 

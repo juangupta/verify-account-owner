@@ -2,6 +2,7 @@ package co.com.bancolombia.service.verifyaccountowner;
 
 import co.com.bancolombia.service.verifyaccountowner.api.VerifyAccountOwnerApi;
 import co.com.bancolombia.service.verifyaccountowner.model.JsonApiBody;
+import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountRequest;
 import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
@@ -11,6 +12,7 @@ import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.I
 import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.InformacionCuenta;
 import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.ObjectFactory;
 import io.swagger.annotations.*;
+
 import org.apache.camel.EndpointInject;
 import org.apache.camel.FluentProducerTemplate;
 import org.apache.camel.component.spring.ws.SpringWebserviceConstants;
@@ -28,7 +30,8 @@ import java.io.IOException;
 @Controller
 public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
 
-    @EndpointInject(uri="direct:soap-deposit-account-query")
+    //@EndpointInject(uri="direct:soap-deposit-account-query")
+	@EndpointInject(uri="direct:validate-channel-service")
     private FluentProducerTemplate producerTemplate;
 
     private final ObjectMapper objectMapper;
@@ -43,7 +46,7 @@ public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
 
     public ResponseEntity<VerifyAccountResponse> verifyAccountOwner(@ApiParam(value = "" ,required=true )  @Valid @RequestBody JsonApiBody body) {
 
-        ConsultarDetalleExtendido consultarDetalleExtendido =new ConsultarDetalleExtendido();
+        /*ConsultarDetalleExtendido consultarDetalleExtendido =new ConsultarDetalleExtendido();
         IdentificacionCliente identificacionCliente =new IdentificacionCliente();
         InformacionCuenta informacionCuenta= new InformacionCuenta();
 
@@ -52,13 +55,19 @@ public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
 
         consultarDetalleExtendido.setIdentificacionCliente(identificacionCliente);
         consultarDetalleExtendido.setInformacionCuenta(informacionCuenta);
-
-
-
-
+		
+		
         Object obj = producerTemplate.withBody(consultarDetalleExtendido).request();
+*/
+    	
+    	VerifyAccountRequest verifyAccountRequest = new VerifyAccountRequest();
+    	verifyAccountRequest = body.getData().get(0);
 
+    	
+    	Object obj = producerTemplate.withBody(verifyAccountRequest).withHeader("TEMPLATE", "templates/ChannelServiceRq.ftl").withHeader("ENDPOINT", "http://localhost:8081/test/ValidateChannel").request();
         System.out.println(obj);
+    	
+    	
         /**
          *
          *         String accept = request.getHeader("Accept");
