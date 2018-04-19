@@ -32,9 +32,7 @@ public class DepositAccountQueryRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:soap-deposit-account-query")
-                .marshal(jaxbDataFormat)
-                .log("${body}")
-                //.to("freemarker:templates/DepositAccountQuerySoapRq.ftl")
+                .to("freemarker:templates/DepositAccountQuerySoapRq.ftl")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
