@@ -23,21 +23,22 @@ class Config{
 
 	/**
 	 * JaxbContext for DataPower SOAP http://grupobancolombia.com/intf/Producto/Depositos/ConsultaCuentaDepositos/V1.0
-	 * @return
+	 * @return Jaxb2Marshaller
 	 */
 	@Bean
 	public Jaxb2Marshaller jaxb2Marshaller(){
 		Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
 		jaxb2Marshaller.setContextPaths("com.grupobancolombia.ents.common.genericexception.v2",
-				                        "com.grupobancolombia.ents.soi.coreextensions.v2",
-										"com.grupobancolombia.ents.soi.messageformat.v2",
-										"com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1");
+				"com.grupobancolombia.ents.soi.coreextensions.v2",
+				"com.grupobancolombia.ents.soi.messageformat.v2",
+				"com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v2");
 		return jaxb2Marshaller;
 	}
 
 	/**
 	 * Apache Camel JaxbContext for Datapower SOAP http://grupobancolombia.com/intf/Producto/Depositos/ConsultaCuentaDepositos/V1.0
-	 * @return
+	 * @implNote this bean is used by the Apache Camel Spring-ws component
+	 * @return JaxbDataFormat
 	 */
 	@Bean
 	public JaxbDataFormat jaxbDataFormat(){
@@ -49,7 +50,8 @@ class Config{
 
 	/**
 	 * Spring SOAP Template
-	 * @return
+	 * @implNote this bean is used by the Apache Camel Spring-ws component
+	 * @return WebServiceTemplate
 	 */
 	@Bean
 	public WebServiceTemplate webServiceTemplate(){

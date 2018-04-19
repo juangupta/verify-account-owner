@@ -5,12 +5,7 @@ import co.com.bancolombia.service.verifyaccountowner.model.JsonApiBody;
 import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountRequest;
 import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
-import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
-import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.ConsultarDetalleExtendido;
-import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.IdentificacionCliente;
-import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.InformacionCuenta;
-import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v1.ObjectFactory;
+import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v2.*;
 import io.swagger.annotations.*;
 
 import org.apache.camel.EndpointInject;
@@ -22,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -46,19 +40,28 @@ public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
 
     public ResponseEntity<VerifyAccountResponse> verifyAccountOwner(@ApiParam(value = "" ,required=true )  @Valid @RequestBody JsonApiBody body) {
 
-        /*ConsultarDetalleExtendido consultarDetalleExtendido =new ConsultarDetalleExtendido();
-        IdentificacionCliente identificacionCliente =new IdentificacionCliente();
-        InformacionCuenta informacionCuenta= new InformacionCuenta();
+       /* ConsultarInformacionExtendidaCuenta consultarInformacionExtendidaCuenta = new ConsultarInformacionExtendidaCuenta();
+        InformacionCuentaCIE cie = new InformacionCuentaCIE();
 
-        informacionCuenta.setNumeroCuenta("5555555555");
-        informacionCuenta.setTipoCuenta("CD");
+        CondicionesComercialesCIE condicionesComercialesCIE = new CondicionesComercialesCIE();
+        InformacionTransaccion informacionTransaccion = new InformacionTransaccion();
+        informacionTransaccion.setNumeroCuenta("1234567");
+        informacionTransaccion.setTipoCuenta("ahorros");
+        condicionesComercialesCIE.setInformacionTransaccion(informacionTransaccion);
 
-        consultarDetalleExtendido.setIdentificacionCliente(identificacionCliente);
-        consultarDetalleExtendido.setInformacionCuenta(informacionCuenta);
-		
-		
-        Object obj = producerTemplate.withBody(consultarDetalleExtendido).request();
-*/
+        InformacionClienteCIE informacionClienteCIE = new InformacionClienteCIE();
+        IdentificacionCliente identificacionCliente = new IdentificacionCliente();
+        identificacionCliente.setTipoIdentificacion("CC");
+        identificacionCliente.setNumeroIdentificacion("11011100000");
+        informacionClienteCIE.setIdentificacionCliente(identificacionCliente);
+
+
+        cie.setCondicionesComerciales(condicionesComercialesCIE);
+        cie.setInformacionCliente(informacionClienteCIE);
+
+        consultarInformacionExtendidaCuenta.setInformacionCuenta(cie);
+        Object obj = producerTemplate.withBody(consultarInformacionExtendidaCuenta).request();*/
+
     	
     	VerifyAccountRequest verifyAccountRequest = new VerifyAccountRequest();
     	verifyAccountRequest = body.getData().get(0);

@@ -48,8 +48,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.camel/camel-jackson
 	compile group: 'org.apache.camel', name: 'camel-jackson', version: '2.21.0'
 
-
-
 	compile project('deposit-account-query-soap-client')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
