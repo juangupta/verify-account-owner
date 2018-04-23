@@ -10,6 +10,10 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 
+import javax.net.ssl.*;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
 @SpringBootApplication
 public class VerifyAccountOwnerApplication {
 
@@ -55,11 +59,44 @@ class Config{
 	 */
 	@Bean
 	public WebServiceTemplate webServiceTemplate(){
+		trust();
 		ClientInterceptor[] interceptors = new ClientInterceptor[] {new LogHttpHeaderClientInterceptor()};
 		WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
 		webServiceTemplate.setMarshaller(jaxb2Marshaller());
 		webServiceTemplate.setUnmarshaller(jaxb2Marshaller());
 		webServiceTemplate.setInterceptors(interceptors);
 		return webServiceTemplate;
+	}
+
+	public void trust(){
+		try {
+			TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+
+				public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+				}
+
+				public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
+				}
+			} };
+			SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+			HostnameVerifier allHostsValid = new HostnameVerifier() {
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+			SSLContext.setDefault(sc);
+			HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+			System.out.println("All Certificates Have Been Trusted Successfully.");
+		} catch (KeyManagementException ex) {
+			ex.printStackTrace();
+		} catch (NoSuchAlgorithmException ex) {
+			ex.printStackTrace();
+		}
 	}
 }
