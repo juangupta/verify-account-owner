@@ -24,8 +24,8 @@ import java.io.IOException;
 @Controller
 public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
 
-    //@EndpointInject(uri="direct:soap-deposit-account-query")
-	@EndpointInject(uri="direct:validate-channel-service")
+    @EndpointInject(uri="direct:soap-deposit-account-query")
+	//@EndpointInject(uri="direct:validate-channel-service")
     private FluentProducerTemplate producerTemplate;
 
     private final ObjectMapper objectMapper;
@@ -40,7 +40,7 @@ public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
 
     public ResponseEntity<VerifyAccountResponse> verifyAccountOwner(@ApiParam(value = "" ,required=true )  @Valid @RequestBody JsonApiBody body) {
 
-       /* ConsultarInformacionExtendidaCuenta consultarInformacionExtendidaCuenta = new ConsultarInformacionExtendidaCuenta();
+        ConsultarInformacionExtendidaCuenta consultarInformacionExtendidaCuenta = new ConsultarInformacionExtendidaCuenta();
         InformacionCuentaCIE cie = new InformacionCuentaCIE();
 
         CondicionesComercialesCIE condicionesComercialesCIE = new CondicionesComercialesCIE();
@@ -60,14 +60,15 @@ public class VerifyAccountOwnerApiController implements VerifyAccountOwnerApi {
         cie.setInformacionCliente(informacionClienteCIE);
 
         consultarInformacionExtendidaCuenta.setInformacionCuenta(cie);
-        Object obj = producerTemplate.withBody(consultarInformacionExtendidaCuenta).request();*/
+        Object obj = producerTemplate.withBody(consultarInformacionExtendidaCuenta).request();
 
-    	
+    	/*
     	VerifyAccountRequest verifyAccountRequest = new VerifyAccountRequest();
     	verifyAccountRequest = body.getData().get(0);
 
     	
-    	Object obj = producerTemplate.withBody(verifyAccountRequest).withHeader("TEMPLATE", "templates/ChannelServiceRq.ftl").withHeader("ENDPOINT", "http://localhost:8081/test/ValidateChannel").request();
+    	Object obj = producerTemplate.withBody(verifyAccountRequest).request();
+        */
         System.out.println(obj);
     	
     	

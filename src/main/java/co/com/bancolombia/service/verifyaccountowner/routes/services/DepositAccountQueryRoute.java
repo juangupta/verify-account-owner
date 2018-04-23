@@ -1,5 +1,6 @@
 package co.com.bancolombia.service.verifyaccountowner.routes.services;
 
+import com.grupobancolombia.ents.soi.coreextensions.v2.Destination;
 import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
 import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
 import org.apache.camel.Exchange;
@@ -38,11 +39,17 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                     public void process(Exchange exchange) throws Exception {
 
                         RequestHeader requestHeader =new RequestHeader();
-                        requestHeader.setSystemId("899988");
-                        requestHeader.setMessageId("222333");
+                        requestHeader.setSystemId("AW1170");
+                        requestHeader.setMessageId("9900000000000095");
+                        //*********PONER TIMESTAMP
                         UsernameToken token = new UsernameToken();
                         token.setUserName("jfescobar");
-                        token.setUserToken("6655");
+                        //token.setUserToken("6655");
+                        Destination dest = new Destination();
+                        dest.setName("ConsultaCuentaDepositos");
+                        dest.setNamespace("http://grupobancolombia.com/intf/Producto/Depositos/ConsultaCuentaDepositos/V2.0");
+                        dest.setOperation("consultarInformacionExtendidaCuenta");
+                        requestHeader.setDestination(dest);
                         requestHeader.setUserId(token);
 
                         exchange.getIn().setHeader(SpringWebserviceConstants.SPRING_WS_SOAP_HEADER,requestHeader);

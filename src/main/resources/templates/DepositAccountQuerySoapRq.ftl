@@ -3,14 +3,14 @@
     <informacionCuenta>
         <condicionesComerciales>
             <informacionTransaccion>
-                <tipoCuenta>ahorros</tipoCuenta>
-                <numeroCuenta>1234567</numeroCuenta>
+                <tipoCuenta>S</tipoCuenta>
+                <numeroCuenta>40670649004</numeroCuenta>
             </informacionTransaccion>
         </condicionesComerciales>
         <informacionCliente>
             <identificacionCliente>
-                <tipoIdentificacion>CC</tipoIdentificacion>
-                <numeroIdentificacion>11011100000</numeroIdentificacion>
+                <tipoIdentificacion>FS001</tipoIdentificacion>
+                <numeroIdentificacion>1053781293</numeroIdentificacion>
             </identificacionCliente>
         </informacionCliente>
     </informacionCuenta>
