@@ -20,17 +20,17 @@ import io.swagger.annotations.ApiModelProperty;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T15:35:38.161Z")
 
-public class JsonApiResponse<T>   {
+public class ClientJsonApiResponse<T>   {
   @JsonProperty("data")
   @Valid
   private List<T> data = new ArrayList<T>();
 
-  public JsonApiResponse data(List<T> data) {
+  public ClientJsonApiResponse data(List<T> data) {
     this.data = data;
     return this;
   }
 
-  public JsonApiResponse addDataItem(T dataItem) {
+  public ClientJsonApiResponse addDataItem(T dataItem) {
     this.data.add(dataItem);
     return this;
   }
@@ -61,7 +61,7 @@ public class JsonApiResponse<T>   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    JsonApiResponse jsonApiResponse = (JsonApiResponse) o;
+    ClientJsonApiResponse jsonApiResponse = (ClientJsonApiResponse) o;
     return Objects.equals(this.data, jsonApiResponse.data);
   }
 

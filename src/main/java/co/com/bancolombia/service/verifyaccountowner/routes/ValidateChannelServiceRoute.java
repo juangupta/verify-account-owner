@@ -1,4 +1,4 @@
-package co.com.bancolombia.service.verifyaccountowner.routes.services;
+package co.com.bancolombia.service.verifyaccountowner.routes;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -6,7 +6,7 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import co.com.bancolombia.service.verifyaccountowner.model.client.JsonApiResponse;
+import co.com.bancolombia.service.verifyaccountowner.model.client.ClientJsonApiResponse;
 
 
 @Component
@@ -32,7 +32,7 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 	        .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))	        
 	        .setHeader(this.ACCEPT, constant("application/json"))
 	    .to(path)
-	    	.unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class);
+	    	.unmarshal().json(JsonLibrary.Jackson, ClientJsonApiResponse.class);
         
     }
 }

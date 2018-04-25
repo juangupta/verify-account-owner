@@ -1,4 +1,4 @@
-package co.com.bancolombia.service.verifyaccountowner.routes.services;
+package co.com.bancolombia.service.verifyaccountowner.routes;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
