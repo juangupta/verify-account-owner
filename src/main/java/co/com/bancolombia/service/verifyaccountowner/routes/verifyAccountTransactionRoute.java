@@ -12,6 +12,6 @@ public class verifyAccountTransactionRoute extends RouteBuilder{
 	
 	public void configure() throws Exception {
         from("direct:verify-account-transaction")
-        .log("TransactionRoute");        
+        .log("TransactionRoute Test");        
     }
 }
