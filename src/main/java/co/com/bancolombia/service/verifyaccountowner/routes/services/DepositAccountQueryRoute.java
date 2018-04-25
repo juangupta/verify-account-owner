@@ -1,8 +1,5 @@
 package co.com.bancolombia.service.verifyaccountowner.routes.services;
 
-import com.grupobancolombia.ents.soi.coreextensions.v2.Destination;
-import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
-import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -11,6 +8,10 @@ import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.grupobancolombia.ents.soi.coreextensions.v2.Destination;
+import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
+import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
 
 /**
  * DepositAccountQueryRoute is a Camel-Route created to invoke the SOAP Service: deposit-account-query.

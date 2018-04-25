@@ -22,7 +22,7 @@ public class SwaggerDocumentationConfig {
         return new ApiInfoBuilder()
             .title("Verify Account Owner API")
             .description("API for verify the account owner with beneficiary information")
-            .license("")
+            .license("No Name")
             .licenseUrl("http://unlicense.org")
             .termsOfServiceUrl("")
             .version("1.0.0")

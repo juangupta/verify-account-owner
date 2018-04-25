@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T14:17:45.456Z")
 
-public class VerifyAccountError   {
+public class JsonApiError   {
   @JsonProperty("id")
   private String id = null;
 
@@ -31,7 +31,7 @@ public class VerifyAccountError   {
   @JsonProperty("detail")
   private String detail = null;
 
-  public VerifyAccountError id(String id) {
+  public JsonApiError id(String id) {
     this.id = id;
     return this;
   }
@@ -52,7 +52,7 @@ public class VerifyAccountError   {
     this.id = id;
   }
 
-  public VerifyAccountError status(String status) {
+  public JsonApiError status(String status) {
     this.status = status;
     return this;
   }
@@ -73,7 +73,7 @@ public class VerifyAccountError   {
     this.status = status;
   }
 
-  public VerifyAccountError code(String code) {
+  public JsonApiError code(String code) {
     this.code = code;
     return this;
   }
@@ -94,7 +94,7 @@ public class VerifyAccountError   {
     this.code = code;
   }
 
-  public VerifyAccountError title(String title) {
+  public JsonApiError title(String title) {
     this.title = title;
     return this;
   }
@@ -115,7 +115,7 @@ public class VerifyAccountError   {
     this.title = title;
   }
 
-  public VerifyAccountError detail(String detail) {
+  public JsonApiError detail(String detail) {
     this.detail = detail;
     return this;
   }
@@ -145,7 +145,7 @@ public class VerifyAccountError   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    VerifyAccountError verifyAccountError = (VerifyAccountError) o;
+    JsonApiError verifyAccountError = (JsonApiError) o;
     return Objects.equals(this.id, verifyAccountError.id) &&
         Objects.equals(this.status, verifyAccountError.status) &&
         Objects.equals(this.code, verifyAccountError.code) &&
