@@ -26,7 +26,7 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 	        //.marshal().json(JsonLibrary.Jackson)    
     		.log("Route validateChannel: Before transform Request")        
         .to("freemarker:"+template)    
-        	.log("Route validateChannel: After transform Request")
+        	.log("Route validateChannel: After transform Request >>>>> ${body}")
 	        //.log("Route validateChannel: Body Request ${body}")
 	        .setHeader(Exchange.HTTP_METHOD, constant("POST"))
 	        .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))	        

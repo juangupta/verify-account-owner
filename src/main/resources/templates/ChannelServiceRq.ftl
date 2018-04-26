@@ -2,22 +2,22 @@
   "data": [
     {
       "type": "channel",
-      "id": "${body.getHeader().getId()}",
+      "id": "${body['Id']}",
       "attributes": {
-		"clientDocumentType": "${body.getClientDocumentType()}",
-        "clientDocument": "${body.getClientDocument()}",
-        "businessDocumentType": "${body.getBusinessDocumentType()}",
-        "businessDocument": "${body.getBusinessDocument()}"
+		"clientDocumentType": "${body['ClientDocumentType']}",
+        "clientDocument": "${body['ClientDocument']}",
+        "businessDocumentType": "${body['BusinessDocumentType']}",
+        "businessDocument": "${body['BusinessDocument']}"
 		}
 	  },
       {
       "type": "Transaction",
-      "id": "${body.getMessageId()}",
+      "id": "${body['MessageId']}",
       "attributes": {
-        "transactionDate": "${body.getTransactionDate()}",
-        "clientIp": "${body.getClientIp()}",
-        "channelId": "${body.getChannelId()}",
-        "consumerId": "${body.getConsumerId()}"
+        "transactionDate": "${body['TransactionDate']}",
+        "clientIp": "${body['ClientIp']}",
+        "channelId": "${body['ChannelId']}",
+        "consumerId": "${body['ConsumerId']}"
       }
     }
   ]
