@@ -44,7 +44,7 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                         requestHeader.setMessageId("9900000000000095");
                         //*********PONER TIMESTAMP
                         UsernameToken token = new UsernameToken();
-                        token.setUserName("jfescobar");
+                        token.setUserName("NDB");
                         //token.setUserToken("6655");
                         Destination dest = new Destination();
                         dest.setName("ConsultaCuentaDepositos");
@@ -57,7 +57,7 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                     }
                 })
                 .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
-                .log("${body}")
+                .log("Request SOAP Deposit Account ${body}")
                 .unmarshal(jaxbDataFormat);
     }
 }
