@@ -30,6 +30,9 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 
     @Value("${soap.deposit.account.query.soap.action}")
     private String soapAction;
+    
+	private final String ERROR = "Error";
+	private final String DESC_ERROR = "desc-error";
 
     @Override
     public void configure() throws Exception {
@@ -56,9 +59,21 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                         exchange.getIn().setHeader(SpringWebserviceConstants.SPRING_WS_SOAP_HEADER,requestHeader);
                     }
                 })
-                .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
-                .log("Request SOAP Deposit Account ${body}")
-                .unmarshal(jaxbDataFormat);
+                
+                .hystrix()
+        	    .hystrixConfiguration().executionTimeoutInMilliseconds(2000).end()
+	        	    .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
+	                .log("Request SOAP Deposit Account ${body}")
+	                .unmarshal(jaxbDataFormat)
+	        		.setHeader(this.ERROR, constant("0000"))
+	        		.setHeader(this.DESC_ERROR, constant("No error"))
+	        	.endHystrix()
+	        	    .onFallback()
+	   			 // we use a fallback without network that provides a response message immediately
+	   			 //.transform().simple("Fallback ${body}")
+		       		.setHeader(this.ERROR, constant("0004"))
+		       		.setHeader(this.DESC_ERROR, constant("Error invocando el servicio /deposit-account-dp"))
+	       		.end();
     }
 }
 

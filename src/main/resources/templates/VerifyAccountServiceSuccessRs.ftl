@@ -2,12 +2,12 @@
   "data": [
     {
       "header": {
-        "id": "TestId",
-        "type": "TestType"
+        "id": "${body['Id']}",
+        "type": "${body['Type']}"
       },
-      "messageId": "TestMessageId",
-      "ownerAccountName": "testName",
-      "transactionDate": "testDate"
+      "messageId": "${body['Id']}",
+      "ownerAccountName": "${body['NombreTitular']}",
+      "transactionDate": "${body['TransactionDate']}"
     }
   ]
 }

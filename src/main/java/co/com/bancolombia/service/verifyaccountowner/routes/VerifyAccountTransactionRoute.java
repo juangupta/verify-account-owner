@@ -23,8 +23,14 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
 	@Value("${verify.account.service.freemarker.response.error.template}")
     private String responseErrorTemplate;
 	
+
+	private final String ERROR = "Error";
+	private final String DESC_ERROR = "desc-error";
+	
 	public void configure() throws Exception {
-        from("direct:verify-account-transaction")
+        
+		
+		from("direct:verify-account-transaction")
         
         .bean(verifyAccountOwnerBean, "updateAttributesRequestService(${body})")
 
@@ -32,33 +38,37 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
         .log(">>>1  ${body}")  
         .to("direct:validate-channel-service")    	
         .log(">>>2 ${body}")
-        .bean(verifyAccountOwnerBean, "updateAttributesChannelService(${body}, ${header.Error}, ${header.desc-error})")        
-        
-        
-        //Call account service DataPower
+        .bean(verifyAccountOwnerBean, "validateChannelServiceResponse(${body}, ${header.Error}, ${header.desc-error})")        
         .log(">>>3  ${body}")  
         .choice()
-        	.when().simple("${body['IsActive']} == true && ${body['Error']} == '0000' ")
-        	 	.to("direct:soap-deposit-account-query")
-        	 	.log(">>>4  ${body}")  
-	            .bean(verifyAccountOwnerBean, "getAttributes()")
-	            
-	            //Transform JsonApi Response Service
-	            .log(">>>5  ${body}")  
-	            .to("freemarker:"+responseSuccessTemplate)
-	            .unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)
-	            .log(">>>6 ${body}")
-	            
+        	.when().simple("${body['Error']} == '0000'")
+        	 	.to("direct:invoke-deposit-account-service")
             .otherwise()
-            	//.log(">>>7  ${body}")  
-            	//.to("freemarker:"+responseErrorTemplate)
-	        	//.unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)
-	        	//.log(">>>8 ${body}")
-            	.to("direct:generate-response-error")
-            	
+            	.to("direct:generate-response-error")            	
         .end();
+		
+		
+		 //Call account service DataPower
+		from("direct:invoke-deposit-account-service")
+		.to("direct:soap-deposit-account-query")
+	 	.log(">>>4  ${body}")  
+	 	.bean(verifyAccountOwnerBean, "validateDepositAccountServiceResponse(${body}, ${header.Error}, ${header.desc-error})")
+		.choice()
+			.when().simple("${body['Error']} == '0000'")
+				.to("direct:generate-response-success")
+			.otherwise()
+	        	.to("direct:generate-response-error")  			
+		.end();
         
-    	//Mapero de Errores
+      //Success Response
+        from("direct:generate-response-success")	            
+	        //Transform JsonApi Response Service
+	        .log(">>>5  ${body}")  
+	        .to("freemarker:"+responseSuccessTemplate)
+	        .unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)
+	        .log(">>>6 ${body}");
+        
+    	//Error Response
         from("direct:generate-response-error")
 	        .log(">>>7  ${body}")  
 	        .to("freemarker:"+responseErrorTemplate)
