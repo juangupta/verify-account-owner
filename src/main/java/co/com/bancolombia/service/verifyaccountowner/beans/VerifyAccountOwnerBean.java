@@ -40,15 +40,27 @@ public class VerifyAccountOwnerBean {
 		// Mapear a dato esperado por DP
 		attributes.put("ProductType", serviceRequest.getData().get(0).getProductType());
 		attributes.put("Otp", serviceRequest.getData().get(0).getOtp());
+		attributes.put("Error", "0000");
+		attributes.put("DescError", "No error");
 
 		return attributes;
 	}
 
-	public Map<String, Object> updateAttributesChannelService(ClientJsonApiResponse channelServiceResponse) {
+	public Map<String, Object> updateAttributesChannelService(Object channelServiceResponseObject, String error, String desc_error) {
 		
-		ClientValidateChannelResponse clientValidateChannelResponse = new ClientValidateChannelResponse();
-		clientValidateChannelResponse = (ClientValidateChannelResponse) channelServiceResponse.getData().get(0);
-		attributes.put("IsActive", clientValidateChannelResponse.getAttributes().isActive());
+		if (channelServiceResponseObject instanceof ClientJsonApiResponse && error.equals("0000"))
+		{
+			ClientJsonApiResponse channelServiceResponse = (ClientJsonApiResponse) channelServiceResponseObject;
+			ClientValidateChannelResponse clientValidateChannelResponse = new ClientValidateChannelResponse();
+			clientValidateChannelResponse = (ClientValidateChannelResponse) channelServiceResponse.getData().get(0);
+			attributes.put("IsActive", clientValidateChannelResponse.getAttributes().isActive());
+			
+		}
+		else
+		{
+			attributes.put("Error", error);
+			attributes.put("DescError", desc_error);
+		}
 		return attributes;
 	}
 }

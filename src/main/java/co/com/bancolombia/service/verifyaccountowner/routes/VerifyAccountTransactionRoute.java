@@ -32,14 +32,15 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
         .log(">>>1  ${body}")  
         .to("direct:validate-channel-service")    	
         .log(">>>2 ${body}")
-        .bean(verifyAccountOwnerBean, "updateAttributesChannelService(${body})")        
+        .bean(verifyAccountOwnerBean, "updateAttributesChannelService(${body}, ${header.Error}, ${header.desc-error})")        
         
         
         //Call account service DataPower
         .log(">>>3  ${body}")  
         .choice()
-        	.when().simple("${body['IsActive']} == true").to("direct:soap-deposit-account-query")
-	            .log(">>>4  ${body}")  
+        	.when().simple("${body['IsActive']} == true && ${body['Error']} == '0000' ")
+        	 	.to("direct:soap-deposit-account-query")
+        	 	.log(">>>4  ${body}")  
 	            .bean(verifyAccountOwnerBean, "getAttributes()")
 	            
 	            //Transform JsonApi Response Service
@@ -49,18 +50,16 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
 	            .log(">>>6 ${body}")
 	            
             .otherwise()
-            	.log(">>>7  ${body}")  
-            	.to("freemarker:"+responseErrorTemplate)
-	        	.unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)
-	        	.log(">>>8 ${body}")
-            	//.to("direct:generate-response-error")
-            
+            	//.log(">>>7  ${body}")  
+            	//.to("freemarker:"+responseErrorTemplate)
+	        	//.unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)
+	        	//.log(">>>8 ${body}")
+            	.to("direct:generate-response-error")
+            	
         .end();
         
     	//Mapero de Errores
         from("direct:generate-response-error")
-	        .routeId("generate-response-error")
-	        .autoStartup(false)
 	        .log(">>>7  ${body}")  
 	        .to("freemarker:"+responseErrorTemplate)
 	        .unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)

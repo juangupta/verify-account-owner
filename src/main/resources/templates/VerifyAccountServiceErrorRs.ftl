@@ -1,11 +1,12 @@
 {
   "errors": [
     {
-      "code": "075",
-      "detail": "Empresa no se encuentra activa",
-      "id": "12345678",
+      "code": "${body['Error']}",
+      "detail": "${body['DescError']}",
+      "id": "${body['Id']}",
       "status": "Error",
-      "title": "Error empresa"
+      "title": "Error empresa",
+      "source": "/path"
     }
   ]
 }

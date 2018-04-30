@@ -14,6 +14,8 @@ import co.com.bancolombia.service.verifyaccountowner.model.client.ClientJsonApiR
 public class ValidateChannelServiceRoute extends RouteBuilder {
 	
 	private final String ACCEPT = "Accept";
+	private final String ERROR = "Error";
+	private final String DESC_ERROR = "desc-error";
 	
 	@Value("${channel.service.path}")
     private String path;
@@ -36,16 +38,17 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 	    .log("Request Rest Channel Service ${body}")
 	    .hystrix()
 	    .hystrixConfiguration().executionTimeoutInMilliseconds(2000).end()
-	    .to(path)
-	    .log("Estamos melos")
-        //.unmarshal().json(JsonLibrary.Jackson, ClientJsonApiResponse.class)
+	    	.to(path)
+	    	.unmarshal().json(JsonLibrary.Jackson, ClientJsonApiResponse.class)
+    		.setHeader(this.ERROR, constant("0000"))
+    		.setHeader(this.DESC_ERROR, constant("No error"))
+	    .endHystrix()
 	    .onFallback()
-			 // we use a fallback without network that provides a repsonse message immediately
-			 //.transform().simple("Fallback ${body}") 
-		    .to("freemarker:"+responseErrorTemplate)
-		    .log("Hystrix ${body}")
-	        .unmarshal().json(JsonLibrary.Jackson, JsonApiResponse.class)
-        .end();
+			 // we use a fallback without network that provides a response message immediately
+			 //.transform().simple("Fallback ${body}")
+    		.setHeader(this.ERROR, constant("0001"))
+    		.setHeader(this.DESC_ERROR, constant("Error invocando el servicio /validate-channel"))
+    	.end();
 	    
 
         
