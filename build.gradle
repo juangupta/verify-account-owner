@@ -49,6 +49,8 @@ dependencies {
 	compile group: 'org.apache.camel', name: 'camel-jackson', version: '2.21.0'
 	// https://mvnrepository.com/artifact/org.apache.camel/camel-hystrix-starter
 	compile group: 'org.apache.camel', name: 'camel-hystrix-starter', version: '2.21.0'
+	// https://mvnrepository.com/artifact/org.apache.camel/camel-test-spring
+	testCompile group: 'org.apache.camel', name: 'camel-test-spring', version: '2.21.0'
 
 	compile project('deposit-account-query-soap-client')
 
