@@ -3,6 +3,8 @@ package co.com.bancolombia.service.verifyaccountowner.routes;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,10 +40,19 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
         .log(">>>1  ${body}")  
         .to("direct:validate-channel-service")    	
         .log(">>>2 ${body}")
-        //.bean(verifyAccountOwnerBean, "validateChannelServiceResponse(${body}, ${header.Error}, ${header.desc-error})")        
         .log(">>>3  ${body}")  
+        .log(">>>3.1  ${in.header.Error}")  
+        .process(new Processor() {
+			
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				// TODO Auto-generated method stub
+				System.out.println(exchange);
+				
+			}
+		})
         .choice()
-        	.when().simple("${body['Error']} == '0000' && ${body['IsActive'] == true}")
+              .when(header("Error").isEqualTo("0000"))
         	 	.to("direct:invoke-deposit-account-service")
             .otherwise()
             	
@@ -52,9 +63,9 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
 		from("direct:invoke-deposit-account-service")
 		.to("direct:soap-deposit-account-query")
 	 	.log(">>>4  ${body}")  
-	 	.bean(verifyAccountOwnerBean, "validateDepositAccountServiceResponse(${body}, ${header.Error}, ${header.desc-error})")
+	 	.log(">>>4.1  ${in.header.Error}")  
 		.choice()
-			.when().simple("${body['Error']} == '0000'")
+			.when(header("Error").isEqualTo("0000"))	
 				.to("direct:generate-response-success")
 			.otherwise()
 	        	.to("direct:generate-response-error")  			

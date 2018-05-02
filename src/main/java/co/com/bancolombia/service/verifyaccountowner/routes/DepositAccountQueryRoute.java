@@ -1,5 +1,7 @@
 package co.com.bancolombia.service.verifyaccountowner.routes;
 
+import java.util.Map;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Component;
 import com.grupobancolombia.ents.soi.coreextensions.v2.Destination;
 import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
 import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
+import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v2.ConsultarInformacionExtendidaCuentaResponse;
+
+import co.com.bancolombia.service.verifyaccountowner.model.client.ClientJsonApiResponse;
 
 /**
  * DepositAccountQueryRoute is a Camel-Route created to invoke the SOAP Service: deposit-account-query.
@@ -32,11 +37,21 @@ public class DepositAccountQueryRoute extends RouteBuilder {
     private String soapAction;
     
 	private final String ERROR = "Error";
-	private final String DESC_ERROR = "desc-error";
+	private final String DESC_ERROR = "descError";
+	
+	private Map<String, Object> attributes;
 
     @Override
     public void configure() throws Exception {
         from("direct:soap-deposit-account-query")
+		 .process(new Processor() {
+					
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						// TODO Auto-generated method stub
+						attributes = (Map<String, Object>) exchange.getIn().getBody();				
+					}
+				})
                 .to("freemarker:templates/DepositAccountQuerySoapRq.ftl")
                 .process(new Processor() {
                     @Override
@@ -65,8 +80,35 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 	        	    .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
 	                .log("Request SOAP Deposit Account ${body}")
 	                .unmarshal(jaxbDataFormat)
-	        		.setHeader(this.ERROR, constant("0000"))
-	        		.setHeader(this.DESC_ERROR, constant("No error"))
+	        		.process(new Processor(){        	
+	        			@Override
+	    				public void process(Exchange exchange) throws Exception {
+	    					
+	        				ConsultarInformacionExtendidaCuentaResponse depositAccountServiceResponse = (ConsultarInformacionExtendidaCuentaResponse) exchange.getIn().getBody();
+	        				attributes.put("RelacionCliente", depositAccountServiceResponse.getInformacionCuenta().getInformacionCliente().getRelacionCliente().getRelacionClienteCuenta());
+	        				attributes.put("NombreTitular", depositAccountServiceResponse.getInformacionCuenta().getInformacionCliente().getIdentificacionTitular().getNombreTitular());
+	        				attributes.put("NumeroIdentificacion", depositAccountServiceResponse.getInformacionCuenta().getInformacionCliente().getIdentificacionTitular().getNumeroIdentificacion());
+	        				attributes.put("TipoIdentificacion", depositAccountServiceResponse.getInformacionCuenta().getInformacionCliente().getIdentificacionTitular().getTipoIdentificacion());					
+	        				attributes.put("NumeroCuenta", depositAccountServiceResponse.getInformacionCuenta().getCondicionesComerciales().getInformacionTransaccion().getNumeroCuenta());
+	        				attributes.put("TipoCuenta", depositAccountServiceResponse.getInformacionCuenta().getCondicionesComerciales().getInformacionTransaccion().getTipoCuenta());
+	        				if (attributes.get("RelacionCliente").equals("T") && 
+	        					attributes.get("NumeroIdentificacion").equals(attributes.get("BeneficiaryDocument")) &&
+	        					attributes.get("TipoIdentificacion").equals(attributes.get("BeneficiaryDocumentType")) &&
+	        					attributes.get("NumeroCuenta").equals(attributes.get("ProductNumber")) &&
+	        					attributes.get("TipoCuenta").equals(attributes.get("ProductType"))) 
+	        				{
+	        					exchange.getOut().setHeader(ERROR, "0000");
+	        					exchange.getOut().setHeader(DESC_ERROR, "No error");
+	        				}
+	        				else 
+	        				{
+	        					exchange.getOut().setHeader(ERROR, "0002");
+	        					exchange.getOut().setHeader(DESC_ERROR, "Cliente no es titular de la cuenta");
+	        				}
+	        				exchange.getOut().setBody(attributes);
+	        			}
+	        				
+	        		})
 	        	.endHystrix()
 	        	    .onFallback()
 	   			 // we use a fallback without network that provides a response message immediately

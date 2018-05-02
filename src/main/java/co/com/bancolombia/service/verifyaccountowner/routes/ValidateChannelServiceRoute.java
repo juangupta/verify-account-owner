@@ -19,7 +19,7 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 	
 	private final String ACCEPT = "Accept";
 	private final String ERROR = "Error";
-	private final String DESC_ERROR = "desc-error";
+	private final String DESC_ERROR = "descError";
 	
 	@Value("${channel.service.path}")
     private String path;
@@ -53,8 +53,6 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 	    .hystrixConfiguration().executionTimeoutInMilliseconds(2000).end()
 	    	.to(path)
 	    	.unmarshal().json(JsonLibrary.Jackson, ClientJsonApiResponse.class)
-    		.setHeader(this.ERROR, constant("0000"))
-    		.setHeader(this.DESC_ERROR, constant("No error"))
     	    .log("Response Rest Channel Service ${body}")
     		.process(new Processor() {
 				
@@ -68,16 +66,13 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 					if (clientValidateChannelResponse.getAttributes().isActive()) 
 						
 					{
-
-						attributes.put("Error", "0000");
-						attributes.put("DescError", "No error");
-						
+						exchange.getOut().setHeader(ERROR, "0000");
+						exchange.getOut().setHeader(DESC_ERROR, "No error");
 					}
 					else 
 					{
-
-						attributes.put("Error", "0003");
-						attributes.put("DescError", "Canal no se encuentra activo");
+						exchange.getOut().setHeader(ERROR, "0003");
+						exchange.getOut().setHeader(DESC_ERROR, "Canal no se encuentra activo");
 					}
 					exchange.getOut().setBody(attributes);
 					

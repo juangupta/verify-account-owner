@@ -1,9 +1,8 @@
 {
   "errors": [
     {
-      "code": "${body['Error']}",
-      "detail": "${body['DescError']}",
-      "id": "${body['Id']}",
+      "code": "${headers.Error}",
+      "detail": "${headers.descError}",
       "status": "Error",
       "title": "Error empresa",
       "source": "/path"
