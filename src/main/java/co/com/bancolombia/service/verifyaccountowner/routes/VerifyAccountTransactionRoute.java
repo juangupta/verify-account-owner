@@ -38,17 +38,17 @@ public class VerifyAccountTransactionRoute extends RouteBuilder{
         .log(">>>1  ${body}")  
         .to("direct:validate-channel-service")    	
         .log(">>>2 ${body}")
-        .bean(verifyAccountOwnerBean, "validateChannelServiceResponse(${body}, ${header.Error}, ${header.desc-error})")        
+        //.bean(verifyAccountOwnerBean, "validateChannelServiceResponse(${body}, ${header.Error}, ${header.desc-error})")        
         .log(">>>3  ${body}")  
         .choice()
-        	.when().simple("${body['Error']} == '0000'")
+        	.when().simple("${body['Error']} == '0000' && ${body['IsActive'] == true}")
         	 	.to("direct:invoke-deposit-account-service")
             .otherwise()
+            	
             	.to("direct:generate-response-error")            	
         .end();
 		
-		
-		 //Call account service DataPower
+		//Call account service DataPower
 		from("direct:invoke-deposit-account-service")
 		.to("direct:soap-deposit-account-query")
 	 	.log(">>>4  ${body}")  
