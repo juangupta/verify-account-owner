@@ -56,24 +56,66 @@ public class DepositAccountQueryRouteTest {
                                 .to(MOCK_RESULT_SPRING_WS);
                     }
                 });
+
+        mockEndpointFreeMarker.expectedBodiesReceived(getFreeMarkerExpectedMap());
     }
 
     @Test(expected = CamelExecutionException.class)
-    public void validateBodyIsMapInstace(){
+    public void validateBody_IsMapInstace(){
         producerTemplate.requestBody("String as body");
     }
 
     @Test
-    public void validateRequiredField() throws InterruptedException {
+    public void validateRequiredField_ProductType() throws InterruptedException {
+        Map<String,String> body = new HashMap<>();
+        body.put("ProductNumber","");
+        body.put("BeneficiaryDocumentType","");
+        body.put("BeneficiaryDocument","");
+
+        producerTemplate.requestBody(body);
+        mockEndpointFreeMarker.assertIsNotSatisfied();
+    }
+
+    @Test
+    public void validateRequiredField_ProductNumber() throws InterruptedException {
+        Map<String,String> body = new HashMap<>();
+        body.put("ProductType","");
+        body.put("BeneficiaryDocumentType","");
+        body.put("BeneficiaryDocument","");
+
+        producerTemplate.requestBody(body);
+        mockEndpointFreeMarker.assertIsNotSatisfied();
+    }
+
+    @Test
+    public void validateRequiredField_BeneficiaryDocumentType() throws InterruptedException {
+        Map<String,String> body = new HashMap<>();
+        body.put("ProductType","");
+        body.put("ProductNumber","");
+        body.put("BeneficiaryDocument","");
+
+        producerTemplate.requestBody(body);
+        mockEndpointFreeMarker.assertIsNotSatisfied();
+    }
+
+    @Test
+    public void validateRequiredField_BeneficiaryDocument() throws InterruptedException {
+        Map<String,String> body = new HashMap<>();
+        body.put("ProductType","");
+        body.put("ProductNumber","");
+        body.put("BeneficiaryDocumentType","");
+
+        producerTemplate.requestBody(body);
+        mockEndpointFreeMarker.assertIsNotSatisfied();
+    }
+
+
+    private Map<String ,String > getFreeMarkerExpectedMap(){
         Map<String,String> expectedMap = new HashMap<>();
         expectedMap.put("ProductType","");
         expectedMap.put("ProductNumber","");
         expectedMap.put("BeneficiaryDocumentType","");
         expectedMap.put("BeneficiaryDocument","");
-        mockEndpointFreeMarker.expectedBodiesReceived(expectedMap);
-        Map<String,String> fields = new HashMap<>();
-        producerTemplate.requestBody(fields);
-        mockEndpointFreeMarker.assertIsNotSatisfied();
+        return expectedMap;
     }
-
 }
