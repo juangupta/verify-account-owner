@@ -1,18 +1,27 @@
 package co.com.bancolombia.service.verifyaccountowner;
 
-import co.com.bancolombia.service.verifyaccountowner.interceptors.LogHttpHeaderClientInterceptor;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-
-import javax.net.ssl.*;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import org.springframework.ws.context.MessageContext;
 
 @SpringBootApplication
 public class VerifyAccountOwnerApplication {
@@ -99,4 +108,35 @@ class Config{
 			ex.printStackTrace();
 		}
 	}
+
+	class LogHttpHeaderClientInterceptor implements ClientInterceptor {
+
+	    @Override
+	    public boolean handleRequest(MessageContext messageContext) throws WebServiceClientException {
+	        ByteArrayOutputStream out = new ByteArrayOutputStream();
+	        try {
+	            messageContext.getRequest().writeTo(out);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        System.out.println(new String(out.toByteArray()));
+	        return true;
+	    }
+
+	    @Override
+	    public boolean handleResponse(MessageContext messageContext) throws WebServiceClientException {
+	        return false;
+	    }
+
+	    @Override
+	    public boolean handleFault(MessageContext messageContext) throws WebServiceClientException {
+	        return false;
+	    }
+
+	    @Override
+	    public void afterCompletion(MessageContext messageContext, Exception ex) throws WebServiceClientException {
+
+	    }
+	}
+
 }

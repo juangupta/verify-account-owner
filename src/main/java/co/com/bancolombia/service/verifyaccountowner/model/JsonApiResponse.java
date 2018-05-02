@@ -1,4 +1,4 @@
-package co.com.bancolombia.service.verifyaccountowner.model.client.channel;
+package co.com.bancolombia.service.verifyaccountowner.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,23 +12,24 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * JsonApiResponse
- * @param <T>
+ * jsonApiResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T15:35:38.161Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T14:17:45.456Z")
 
-public class JsonApiResponse<T>   {
+public class JsonApiResponse   {
   @JsonProperty("data")
-  @Valid
-  private List<T> data = new ArrayList<T>();
+  private List<VerifyAccountResponse> data;
+  
+  @JsonProperty("errors")
+  private List<JsonApiError> errors;
 
-  public JsonApiResponse data(List<T> data) {
+  public JsonApiResponse data(List<VerifyAccountResponse> data) {
     this.data = data;
     return this;
   }
 
-  public JsonApiResponse addDataItem(T dataItem) {
+  public JsonApiResponse addDataItem(VerifyAccountResponse dataItem) {
     this.data.add(dataItem);
     return this;
   }
@@ -37,22 +38,30 @@ public class JsonApiResponse<T>   {
    * Get data
    * @return data
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
 
-  @Valid
-
-  public List<T> getData() {
+  public List<VerifyAccountResponse> getData() {
     return data;
   }
 
-  public void setData(List<T> data) {
+  public void setData(List<VerifyAccountResponse> data) {
     this.data = data;
   }
 
+  /**
+   * Get errors
+   * @return errors
+  **/
+  public List<JsonApiError> getErrors() {
+	return errors;
+}
 
+  public void setErrors(List<JsonApiError> errors) {
+	this.errors = errors;
+}
+
+  
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -71,7 +80,7 @@ public class JsonApiResponse<T>   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class JsonApiResponse {\n");
+    sb.append("class jsonApiResponse {\n");
     
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("}");
@@ -82,7 +91,7 @@ public class JsonApiResponse<T>   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

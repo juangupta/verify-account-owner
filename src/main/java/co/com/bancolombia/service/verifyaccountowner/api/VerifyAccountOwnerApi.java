@@ -5,35 +5,34 @@
  */
 package co.com.bancolombia.service.verifyaccountowner.api;
 
-import co.com.bancolombia.service.verifyaccountowner.model.JsonApiBody;
-import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountError;
-import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountResponse;
-import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+
+import co.com.bancolombia.service.verifyaccountowner.model.JsonApiRequest;
+import co.com.bancolombia.service.verifyaccountowner.model.JsonApiResponse;
+import co.com.bancolombia.service.verifyaccountowner.model.JsonApiError;
+import co.com.bancolombia.service.verifyaccountowner.model.VerifyAccountResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T14:17:45.456Z")
 @Api(value = "verifyAccountOwner", description = "the verifyAccountOwner API")
 public interface VerifyAccountOwnerApi {
 
-    @ApiOperation(value = "Verify Account Owner", nickname = "verifyAccountOwner", notes = "Verify if beneficiary is own of account", response = VerifyAccountResponse.class, tags={  })
+    @ApiOperation(value = "Verify Account Owner", nickname = "verifyAccountOwner", notes = "Verify if beneficiary is own of account", response = JsonApiResponse.class, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Beneficiary is account owner", response = VerifyAccountResponse.class),
-        @ApiResponse(code = 405, message = "Invalid Input. please put correct request", response = VerifyAccountError.class) })
+        @ApiResponse(code = 200, message = "Beneficiary is account owner", response = JsonApiResponse.class),
+        @ApiResponse(code = 405, message = "Invalid Input. please put correct request", response = JsonApiResponse.class) })
     @RequestMapping(value = "/verifyAccountOwner",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<VerifyAccountResponse> verifyAccountOwner(@ApiParam(value = "", required = true) @Valid @RequestBody JsonApiBody body);
+    ResponseEntity<JsonApiResponse> verifyAccountOwner(@ApiParam(value = "", required = true) @Valid @RequestBody JsonApiRequest body);
 }

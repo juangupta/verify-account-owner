@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T14:17:45.456Z")
 
-public class VerifyAccountError   {
+public class JsonApiError   {
   @JsonProperty("id")
   private String id = null;
 
@@ -30,8 +30,11 @@ public class VerifyAccountError   {
 
   @JsonProperty("detail")
   private String detail = null;
+  
+  @JsonProperty("source")
+  private String source = null;
 
-  public VerifyAccountError id(String id) {
+public JsonApiError id(String id) {
     this.id = id;
     return this;
   }
@@ -52,7 +55,7 @@ public class VerifyAccountError   {
     this.id = id;
   }
 
-  public VerifyAccountError status(String status) {
+  public JsonApiError status(String status) {
     this.status = status;
     return this;
   }
@@ -73,7 +76,7 @@ public class VerifyAccountError   {
     this.status = status;
   }
 
-  public VerifyAccountError code(String code) {
+  public JsonApiError code(String code) {
     this.code = code;
     return this;
   }
@@ -94,7 +97,7 @@ public class VerifyAccountError   {
     this.code = code;
   }
 
-  public VerifyAccountError title(String title) {
+  public JsonApiError title(String title) {
     this.title = title;
     return this;
   }
@@ -115,7 +118,7 @@ public class VerifyAccountError   {
     this.title = title;
   }
 
-  public VerifyAccountError detail(String detail) {
+  public JsonApiError detail(String detail) {
     this.detail = detail;
     return this;
   }
@@ -136,6 +139,27 @@ public class VerifyAccountError   {
     this.detail = detail;
   }
 
+  
+  public JsonApiError source(String source) {
+	    this.source = source;
+	    return this;
+	  }
+
+	  /**
+	   * Get source
+	   * @return source
+	  **/
+	  @ApiModelProperty(required = true, value = "")
+	  @NotNull
+  
+  public String getSource() {
+	return source;
+}
+
+public void setSource(String source) {
+	this.source = source;
+}
+  
 
   @Override
   public boolean equals(Object o) {
@@ -145,12 +169,13 @@ public class VerifyAccountError   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    VerifyAccountError verifyAccountError = (VerifyAccountError) o;
-    return Objects.equals(this.id, verifyAccountError.id) &&
-        Objects.equals(this.status, verifyAccountError.status) &&
-        Objects.equals(this.code, verifyAccountError.code) &&
-        Objects.equals(this.title, verifyAccountError.title) &&
-        Objects.equals(this.detail, verifyAccountError.detail);
+    JsonApiError JsonApiError = (JsonApiError) o;
+    return Objects.equals(this.id, JsonApiError.id) &&
+        Objects.equals(this.status, JsonApiError.status) &&
+        Objects.equals(this.code, JsonApiError.code) &&
+        Objects.equals(this.title, JsonApiError.title) &&
+        Objects.equals(this.detail, JsonApiError.detail)&&
+        Objects.equals(this.source, JsonApiError.source);
   }
 
   @Override
@@ -161,13 +186,14 @@ public class VerifyAccountError   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class VerifyAccountError {\n");
+    sb.append("class JsonApiError {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    detail: ").append(toIndentedString(detail)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,13 +1,12 @@
-package co.com.bancolombia.service.verifyaccountowner.model.client.channel;
+package co.com.bancolombia.service.verifyaccountowner.model.client;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * AttributesTransactionResponse
@@ -15,7 +14,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T15:35:38.161Z")
 
-public class AttributesResponse   {
+public class ClientChannelAttributesResponse   {
   @JsonProperty("transactionDate")
   private String transactionDate = null;
 
@@ -46,7 +45,7 @@ public class AttributesResponse   {
   @JsonProperty("active")
   private Boolean active = null;
 
-  public AttributesResponse transactionDate(String transactionDate) {
+  public ClientChannelAttributesResponse transactionDate(String transactionDate) {
     this.transactionDate = transactionDate;
     return this;
   }
@@ -66,7 +65,7 @@ public class AttributesResponse   {
     this.transactionDate = transactionDate;
   }
 
-  public AttributesResponse transactionYear(String transactionYear) {
+  public ClientChannelAttributesResponse transactionYear(String transactionYear) {
     this.transactionYear = transactionYear;
     return this;
   }
@@ -86,7 +85,7 @@ public class AttributesResponse   {
     this.transactionYear = transactionYear;
   }
 
-  public AttributesResponse transactionMonth(String transactionMonth) {
+  public ClientChannelAttributesResponse transactionMonth(String transactionMonth) {
     this.transactionMonth = transactionMonth;
     return this;
   }
@@ -106,7 +105,7 @@ public class AttributesResponse   {
     this.transactionMonth = transactionMonth;
   }
 
-  public AttributesResponse transactionDay(String transactionDay) {
+  public ClientChannelAttributesResponse transactionDay(String transactionDay) {
     this.transactionDay = transactionDay;
     return this;
   }
@@ -126,7 +125,7 @@ public class AttributesResponse   {
     this.transactionDay = transactionDay;
   }
 
-  public AttributesResponse transactionTime(String transactionTime) {
+  public ClientChannelAttributesResponse transactionTime(String transactionTime) {
     this.transactionTime = transactionTime;
     return this;
   }
@@ -146,7 +145,7 @@ public class AttributesResponse   {
     this.transactionTime = transactionTime;
   }
 
-  public AttributesResponse clientIp(String clientIp) {
+  public ClientChannelAttributesResponse clientIp(String clientIp) {
     this.clientIp = clientIp;
     return this;
   }
@@ -166,7 +165,7 @@ public class AttributesResponse   {
     this.clientIp = clientIp;
   }
 
-  public AttributesResponse channelId(String channelId) {
+  public ClientChannelAttributesResponse channelId(String channelId) {
     this.channelId = channelId;
     return this;
   }
@@ -186,7 +185,7 @@ public class AttributesResponse   {
     this.channelId = channelId;
   }
 
-  public AttributesResponse consumerId(String consumerId) {
+  public ClientChannelAttributesResponse consumerId(String consumerId) {
     this.consumerId = consumerId;
     return this;
   }
@@ -206,7 +205,7 @@ public class AttributesResponse   {
     this.consumerId = consumerId;
   }
 
-  public AttributesResponse code(String code) {
+  public ClientChannelAttributesResponse code(String code) {
     this.code = code;
     return this;
   }
@@ -226,7 +225,7 @@ public class AttributesResponse   {
     this.code = code;
   }
 
-  public AttributesResponse active(Boolean active) {
+  public ClientChannelAttributesResponse active(Boolean active) {
     this.active = active;
     return this;
   }
@@ -255,7 +254,7 @@ public class AttributesResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AttributesResponse attributesTransactionResponse = (AttributesResponse) o;
+    ClientChannelAttributesResponse attributesTransactionResponse = (ClientChannelAttributesResponse) o;
     return Objects.equals(this.transactionDate, attributesTransactionResponse.transactionDate) &&
         Objects.equals(this.transactionYear, attributesTransactionResponse.transactionYear) &&
         Objects.equals(this.transactionMonth, attributesTransactionResponse.transactionMonth) &&

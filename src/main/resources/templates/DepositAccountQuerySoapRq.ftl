@@ -3,14 +3,14 @@
     <informacionCuenta>
         <condicionesComerciales>
             <informacionTransaccion>
-                <tipoCuenta>S</tipoCuenta>
-                <numeroCuenta>40670649004</numeroCuenta>
+                <tipoCuenta>${body['ProductType']}</tipoCuenta>
+                <numeroCuenta>${body['ProductNumber']}</numeroCuenta>
             </informacionTransaccion>
         </condicionesComerciales>
         <informacionCliente>
             <identificacionCliente>
-                <tipoIdentificacion>FS001</tipoIdentificacion>
-                <numeroIdentificacion>1053781293</numeroIdentificacion>
+                <tipoIdentificacion>${body['BeneficiaryDocumentType']}</tipoIdentificacion>
+                <numeroIdentificacion>${body['BeneficiaryDocument']}</numeroIdentificacion>
             </identificacionCliente>
         </informacionCliente>
     </informacionCuenta>

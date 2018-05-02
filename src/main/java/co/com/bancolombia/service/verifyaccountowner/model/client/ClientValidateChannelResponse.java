@@ -1,4 +1,4 @@
-package co.com.bancolombia.service.verifyaccountowner.model.client.channel;
+package co.com.bancolombia.service.verifyaccountowner.model.client;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T15:35:38.161Z")
 
-public class ValidateChannelResponse   {
+public class ClientValidateChannelResponse   {
   @JsonProperty("type")
   private String type = null;
 
@@ -23,9 +23,9 @@ public class ValidateChannelResponse   {
   private String id = null;
 
   @JsonProperty("attributes")
-  private AttributesResponse attributes = null;
+  private ClientChannelAttributesResponse attributes = null;
 
-  public ValidateChannelResponse type(String type) {
+  public ClientValidateChannelResponse type(String type) {
     this.type = type;
     return this;
   }
@@ -46,7 +46,7 @@ public class ValidateChannelResponse   {
     this.type = type;
   }
 
-  public ValidateChannelResponse id(String id) {
+  public ClientValidateChannelResponse id(String id) {
     this.id = id;
     return this;
   }
@@ -67,7 +67,7 @@ public class ValidateChannelResponse   {
     this.id = id;
   }
 
-  public ValidateChannelResponse attributes(AttributesResponse attributes) {
+  public ClientValidateChannelResponse attributes(ClientChannelAttributesResponse attributes) {
     this.attributes = attributes;
     return this;
   }
@@ -81,11 +81,11 @@ public class ValidateChannelResponse   {
 
   @Valid
 
-  public AttributesResponse getAttributes() {
+  public ClientChannelAttributesResponse getAttributes() {
     return attributes;
   }
 
-  public void setAttributes(AttributesResponse attributes) {
+  public void setAttributes(ClientChannelAttributesResponse attributes) {
     this.attributes = attributes;
   }
 
@@ -98,7 +98,7 @@ public class ValidateChannelResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ValidateChannelResponse validateChannelResponse = (ValidateChannelResponse) o;
+    ClientValidateChannelResponse validateChannelResponse = (ClientValidateChannelResponse) o;
     return Objects.equals(this.type, validateChannelResponse.type) &&
         Objects.equals(this.id, validateChannelResponse.id) &&
         Objects.equals(this.attributes, validateChannelResponse.attributes);

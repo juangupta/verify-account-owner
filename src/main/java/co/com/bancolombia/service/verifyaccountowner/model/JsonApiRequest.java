@@ -12,22 +12,22 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * JsonApiBody
+ * jsonApiRequest
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-04-11T14:17:45.456Z")
 
-public class JsonApiBody   {
+public class JsonApiRequest   {
   @JsonProperty("data")
   @Valid
-  private List<VerifyAccountRequest> data = new ArrayList<VerifyAccountRequest>();
+  private List<VerifyAccountRequest> data;
 
-  public JsonApiBody data(List<VerifyAccountRequest> data) {
+  public JsonApiRequest data(List<VerifyAccountRequest> data) {
     this.data = data;
     return this;
   }
 
-  public JsonApiBody addDataItem(VerifyAccountRequest dataItem) {
+  public JsonApiRequest addDataItem(VerifyAccountRequest dataItem) {
     this.data.add(dataItem);
     return this;
   }
@@ -58,8 +58,8 @@ public class JsonApiBody   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    JsonApiBody jsonApiBody = (JsonApiBody) o;
-    return Objects.equals(this.data, jsonApiBody.data);
+    JsonApiRequest jsonApiRequest = (JsonApiRequest) o;
+    return Objects.equals(this.data, jsonApiRequest.data);
   }
 
   @Override
@@ -70,7 +70,7 @@ public class JsonApiBody   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class JsonApiBody {\n");
+    sb.append("class jsonApiRequest {\n");
     
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("}");

@@ -1,8 +1,5 @@
-package co.com.bancolombia.service.verifyaccountowner.routes.services;
+package co.com.bancolombia.service.verifyaccountowner.routes;
 
-import com.grupobancolombia.ents.soi.coreextensions.v2.Destination;
-import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
-import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -11,6 +8,10 @@ import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.grupobancolombia.ents.soi.coreextensions.v2.Destination;
+import com.grupobancolombia.ents.soi.coreextensions.v2.UsernameToken;
+import com.grupobancolombia.ents.soi.messageformat.v2.RequestHeader;
 
 /**
  * DepositAccountQueryRoute is a Camel-Route created to invoke the SOAP Service: deposit-account-query.
@@ -29,6 +30,9 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 
     @Value("${soap.deposit.account.query.soap.action}")
     private String soapAction;
+    
+	private final String ERROR = "Error";
+	private final String DESC_ERROR = "desc-error";
 
     @Override
     public void configure() throws Exception {
@@ -43,7 +47,7 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                         requestHeader.setMessageId("9900000000000095");
                         //*********PONER TIMESTAMP
                         UsernameToken token = new UsernameToken();
-                        token.setUserName("jfescobar");
+                        token.setUserName("NDB");
                         //token.setUserToken("6655");
                         Destination dest = new Destination();
                         dest.setName("ConsultaCuentaDepositos");
@@ -55,9 +59,21 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                         exchange.getIn().setHeader(SpringWebserviceConstants.SPRING_WS_SOAP_HEADER,requestHeader);
                     }
                 })
-                .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
-                .log("${body}")
-                .unmarshal(jaxbDataFormat);
+                
+                .hystrix()
+        	    .hystrixConfiguration().executionTimeoutInMilliseconds(2000).end()
+	        	    .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
+	                .log("Request SOAP Deposit Account ${body}")
+	                .unmarshal(jaxbDataFormat)
+	        		.setHeader(this.ERROR, constant("0000"))
+	        		.setHeader(this.DESC_ERROR, constant("No error"))
+	        	.endHystrix()
+	        	    .onFallback()
+	   			 // we use a fallback without network that provides a response message immediately
+	   			 //.transform().simple("Fallback ${body}")
+		       		.setHeader(this.ERROR, constant("0004"))
+		       		.setHeader(this.DESC_ERROR, constant("Error invocando el servicio /deposit-account-dp"))
+	       		.end();
     }
 }
 
