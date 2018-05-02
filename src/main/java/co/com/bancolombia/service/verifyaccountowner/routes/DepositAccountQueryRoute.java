@@ -33,6 +33,18 @@ public class DepositAccountQueryRoute extends RouteBuilder {
     @Value("${soap.deposit.account.query.soap.action}")
     private String soapAction;
 
+    @Value("${soap.deposit.account.query.freemarker.template}")
+    private String freemarkerTemplate;
+
+    @Value("${soap.deposit.account.query.system.id}")
+    private String systemId;
+
+    @Value("${soap.deposit.account.query.user.name}")
+    private String userName;
+
+    @Value("${soap.deposit.account.query.name.space}")
+    private String nameSpace;
+
     public static final String ROUTE_ID ="soap-deposit-account-query";
 	private final String ERROR = "Error";
 	private final String DESC_ERROR = "desc-error";
@@ -42,22 +54,21 @@ public class DepositAccountQueryRoute extends RouteBuilder {
         from("direct:soap-deposit-account-query")
                 .routeId(ROUTE_ID)
                 .validate(body().isInstanceOf(Map.class))
-                .to("freemarker:templates/DepositAccountQuerySoapRq.ftl")
-                .log("despues del ${body}")
+                .to("freemarker:"+freemarkerTemplate)
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
 
                         RequestHeader requestHeader =new RequestHeader();
-                        requestHeader.setSystemId("AW1170");
+                        requestHeader.setSystemId(systemId);
                         requestHeader.setMessageId("9900000000000095");
                         //*********PONER TIMESTAMP
                         UsernameToken token = new UsernameToken();
-                        token.setUserName("NDB");
+                        token.setUserName(userName);
                         //token.setUserToken("6655");
                         Destination dest = new Destination();
                         dest.setName("ConsultaCuentaDepositos");
-                        dest.setNamespace("http://grupobancolombia.com/intf/Producto/Depositos/ConsultaCuentaDepositos/V2.0");
+                        dest.setNamespace(nameSpace);
                         dest.setOperation("consultarInformacionExtendidaCuenta");
                         requestHeader.setDestination(dest);
                         requestHeader.setUserId(token);

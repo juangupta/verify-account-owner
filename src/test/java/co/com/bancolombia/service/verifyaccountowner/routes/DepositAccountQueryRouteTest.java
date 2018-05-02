@@ -109,6 +109,19 @@ public class DepositAccountQueryRouteTest {
         mockEndpointFreeMarker.assertIsNotSatisfied();
     }
 
+    @Test
+    public void validateAllRequiredFields() throws InterruptedException {
+        mockEndpointFreeMarker.expectedMessageCount(3);
+        Map<String,String> body = new HashMap<>();
+        body.put("ProductType","");
+        body.put("ProductNumber","");
+        body.put("BeneficiaryDocumentType","");
+        body.put("BeneficiaryDocument","");
+
+        producerTemplate.requestBody(body);
+        mockEndpointFreeMarker.assertIsSatisfied();
+    }
+
 
     private Map<String ,String > getFreeMarkerExpectedMap(){
         Map<String,String> expectedMap = new HashMap<>();
