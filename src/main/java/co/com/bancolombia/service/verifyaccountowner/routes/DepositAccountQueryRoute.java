@@ -18,6 +18,8 @@ import com.grupobancolombia.intf.producto.depositos.consultacuentadepositos.v2.C
 
 import co.com.bancolombia.service.verifyaccountowner.model.client.ClientJsonApiResponse;
 
+import java.util.Map;
+
 /**
  * DepositAccountQueryRoute is a Camel-Route created to invoke the SOAP Service: deposit-account-query.
  * This Route use the Camel Spring-ws component described below: https://github.com/apache/camel/blob/master/components/camel-spring-ws/src/main/docs/spring-ws-component.adoc
@@ -35,7 +37,8 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 
     @Value("${soap.deposit.account.query.soap.action}")
     private String soapAction;
-    
+
+    public static final String ROUTE_ID ="soap-deposit-account-query";
 	private final String ERROR = "Error";
 	private final String DESC_ERROR = "descError";
 	
@@ -52,7 +55,10 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 						attributes = (Map<String, Object>) exchange.getIn().getBody();				
 					}
 				})
+                .routeId(ROUTE_ID)
+                .validate(body().isInstanceOf(Map.class))
                 .to("freemarker:templates/DepositAccountQuerySoapRq.ftl")
+                .log("despues del ${body}")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
