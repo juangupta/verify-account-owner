@@ -114,15 +114,15 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 	        					attributes.get("NumeroCuenta").equals(attributes.get("ProductNumber")) &&
 	        					attributes.get("TipoCuenta").equals(attributes.get("ProductType"))) 
 	        				{
-	        					exchange.getOut().setHeader(ERROR, "0000");
-	        					exchange.getOut().setHeader(DESC_ERROR, "No error");
+	        					exchange.getIn().setHeader(ERROR, "0000");
+	        					exchange.getIn().setHeader(DESC_ERROR, "No error");
 	        				}
 	        				else 
 	        				{
-	        					exchange.getOut().setHeader(ERROR, "0002");
-	        					exchange.getOut().setHeader(DESC_ERROR, "Cliente no es titular de la cuenta");
+	        					exchange.getIn().setHeader(ERROR, "0002");
+	        					exchange.getIn().setHeader(DESC_ERROR, "Cliente no es titular de la cuenta");
 	        				}
-	        				exchange.getOut().setBody(attributes);
+	        				exchange.getIn().setBody(attributes);
 	        			}
 	        				
 	        		})

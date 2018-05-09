@@ -66,15 +66,15 @@ public class ValidateChannelServiceRoute extends RouteBuilder {
 					if (clientValidateChannelResponse.getAttributes().isActive()) 
 						
 					{
-						exchange.getOut().setHeader(ERROR, "0000");
-						exchange.getOut().setHeader(DESC_ERROR, "No error");
+						exchange.getIn().setHeader(ERROR, "0000");
+						exchange.getIn().setHeader(DESC_ERROR, "No error");
 					}
 					else 
 					{
-						exchange.getOut().setHeader(ERROR, "0003");
-						exchange.getOut().setHeader(DESC_ERROR, "Canal no se encuentra activo");
+						exchange.getIn().setHeader(ERROR, "0003");
+						exchange.getIn().setHeader(DESC_ERROR, "Canal no se encuentra activo");
 					}
-					exchange.getOut().setBody(attributes);
+					exchange.getIn().setBody(attributes);
 					
 				}
 			})

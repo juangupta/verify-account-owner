@@ -2,7 +2,10 @@ package co.com.bancolombia.service.verifyaccountowner.routes;
 
 import org.apache.camel.*;
 import org.apache.camel.builder.AdviceWithRouteBuilder;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.model.RouteDefinition;
+import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.apache.camel.processor.validation.PredicateValidationException;
 import org.apache.camel.test.spring.CamelSpringBootRunner;
 import org.junit.Assert;
@@ -12,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.HashMap;
@@ -36,6 +40,9 @@ public class DepositAccountQueryRouteTest {
 
     @EndpointInject(uri = MOCK_DIRECT)
     private ProducerTemplate producerTemplate;
+
+    @Autowired
+    private Jaxb2Marshaller jaxb2Marshaller;
 
     @Before
     public void setup() throws Exception {
@@ -122,7 +129,6 @@ public class DepositAccountQueryRouteTest {
         mockEndpointFreeMarker.assertIsSatisfied();
     }
 
-
     private Map<String ,String > getFreeMarkerExpectedMap(){
         Map<String,String> expectedMap = new HashMap<>();
         expectedMap.put("ProductType","");
@@ -132,3 +138,5 @@ public class DepositAccountQueryRouteTest {
         return expectedMap;
     }
 }
+
+
