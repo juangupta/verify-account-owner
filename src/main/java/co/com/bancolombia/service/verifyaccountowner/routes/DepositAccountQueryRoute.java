@@ -67,6 +67,7 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 						attributes = (Map<String, Object>) exchange.getIn().getBody();				
 					}
 				})
+		 		.removeHeaders("*")
                 .routeId(ROUTE_ID)
                 .validate(body().isInstanceOf(Map.class))
                 .to("freemarker:"+freemarkerTemplate)
@@ -92,8 +93,8 @@ public class DepositAccountQueryRoute extends RouteBuilder {
                     }
                 })
                 
-                .hystrix()
-        	    .hystrixConfiguration().executionTimeoutInMilliseconds(2000).end()
+                //.hystrix()
+        	    //.hystrixConfiguration().executionTimeoutInMilliseconds(2000).end()
 	        	    .to("spring-ws:"+path+"?webServiceTemplate=#webServiceTemplate&soapAction="+soapAction)
 	                .log("Request SOAP Deposit Account ${body}")
 	                .unmarshal(jaxbDataFormat)
@@ -125,14 +126,14 @@ public class DepositAccountQueryRoute extends RouteBuilder {
 	        				exchange.getIn().setBody(attributes);
 	        			}
 	        				
-	        		})
-	        	.endHystrix()
-	        	    .onFallback()
+	        		});
+	        	//.endHystrix()
+	        	//    .onFallback()
 	   			 // we use a fallback without network that provides a response message immediately
 	   			 //.transform().simple("Fallback ${body}")
-		       		.setHeader(this.ERROR, constant("0004"))
-		       		.setHeader(this.DESC_ERROR, constant("Error invocando el servicio /deposit-account-dp"))
-	       		.end();
+		       	//	.setHeader(this.ERROR, constant("0004"))
+		       	//	.setHeader(this.DESC_ERROR, constant("Error invocando el servicio /deposit-account-dp"))
+	       		//.end();
     }
 }
 

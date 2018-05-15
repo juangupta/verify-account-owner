@@ -68,8 +68,9 @@ public class DepositAccountQueryRouteTest {
     }
 
     @Test(expected = CamelExecutionException.class)
-    public void validateBody_IsMapInstace(){
+    public void validateBody_IsMapInstace() throws InterruptedException{
         producerTemplate.requestBody("String as body");
+        mockEndpointFreeMarker.assertIsSatisfied();
     }
 
     @Test
